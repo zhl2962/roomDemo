@@ -1,0 +1,54 @@
+apply plugin: 'com.android.application'
+
+apply plugin: 'kotlin-android'
+
+apply plugin: 'kotlin-android-extensions'
+
+android {
+    compileSdkVersion 27
+    defaultConfig {
+        applicationId "com.honlin.roomdemo"
+        minSdkVersion 15
+        targetSdkVersion 27
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        javaCompileOptions { annotationProcessorOptions { includeCompileClasspath = true } }
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    lintOptions {
+        abortOnError false
+    }
+    packagingOptions {
+        exclude  'META-INF/compiler.kotlin_module'
+    }
+    androidExtensions {
+        experimental = true
+    }
+}
+configurations.all {
+    resolutionStrategy {
+        force 'android.arch.lifecycle:runtime:1.1.1'
+        force 'android.arch.lifecycle:livedata-core:1.1.1'
+        force 'android.arch.lifecycle:viewmodel:1.1.1'
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation deps.kotlin.stdlib
+    implementation deps.support.app_compat
+    implementation deps.constraint_layout
+    implementation deps.lifecycle.compiler
+    implementation deps.lifecycle.extensions
+    implementation deps.room.rxjava2
+    implementation deps.room.compiler
+    implementation deps.room.runtime
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+}
